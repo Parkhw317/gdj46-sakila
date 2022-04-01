@@ -3,13 +3,18 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Index</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
 </head>
+<div class="container">
 <body>
-	<h1>INDEX</h1>
-	<ol>
-		<li><a href="<%=request.getContextPath()%>/storeList.jsp">Store List</a></li>
-		<li><a href="<%=request.getContextPath()%>/staffList.jsp">Staff List</a></li>
-	</ol>
+	<h1 class="text-center">INDEX</h1>
+
+		<a href="<%=request.getContextPath()%>/storeList.jsp" class="btn btn-info btn-block" role="button">Store List로 이동</a>
+		<a href="<%=request.getContextPath()%>/staffList.jsp" class="btn btn-warning btn-block" role="button">Staff List로 이동</a>
+
+
+	
 </body>
+</div>
 </html>
