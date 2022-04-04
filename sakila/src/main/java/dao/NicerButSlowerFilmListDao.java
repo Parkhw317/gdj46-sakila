@@ -6,37 +6,42 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
 import util.DBUtil;
-import vo.ActorInfo;
+import vo.NicerButSlowerFilmList;
 
-public class ActorInfoDao {
+
+public class NicerButSlowerFilmListDao {
 	
-	public List<ActorInfo> selectActorInfoListByPage(int beginRow, int rowPerPage) {
-		List<ActorInfo> list = new ArrayList<ActorInfo>();
+	public List<NicerButSlowerFilmList> selectNicerButSlowerFilmListByPage(int beginRow, int rowPerPage){
+		List<NicerButSlowerFilmList> list = new ArrayList<NicerButSlowerFilmList>();
 		
 		Connection conn = null;
 		conn = DBUtil.getConnection();
 		
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
-		String sql = "SELECT * FROM actor_info ORDER BY actor_id LIMIT ?, ?";
-		
+		String sql = "SELECT * FROM nicer_but_slower_film_list ORDER BY fid LIMIT ?, ?";
+
+	
 		try {
 			stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, beginRow);
 			stmt.setInt(2, rowPerPage);
 			rs = stmt.executeQuery();
-			
+		
 			while(rs.next()) {
-				ActorInfo actorInfo = new ActorInfo();
-				actorInfo.setActorId(rs.getInt("actor_id"));
-				actorInfo.setFirstName(rs.getString("first_name"));
-				actorInfo.setLastName(rs.getString("last_name"));
-				actorInfo.setFilmInfo(rs.getString("film_info"));
-				System.out.println(actorInfo.toString() + "actor_info");
-				list.add(actorInfo);
-			}		
+				NicerButSlowerFilmList nicerButSlowerFilmList = new NicerButSlowerFilmList();
+				nicerButSlowerFilmList.setFilmId(rs.getInt("FID"));
+				nicerButSlowerFilmList.setTitle(rs.getString("title"));
+				nicerButSlowerFilmList.setDescription(rs.getString("description"));
+				nicerButSlowerFilmList.setCategory(rs.getString("category"));
+				nicerButSlowerFilmList.setPrice(rs.getDouble("price"));
+				nicerButSlowerFilmList.setLength(rs.getInt("length"));
+				nicerButSlowerFilmList.setRating(rs.getString("rating"));
+				nicerButSlowerFilmList.setActors(rs.getString("actors"));
+				System.out.println(nicerButSlowerFilmList.toString() + "NicerButSlowerFilmList");
+				list.add(nicerButSlowerFilmList);
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -44,7 +49,6 @@ public class ActorInfoDao {
 				rs.close();
 				stmt.close();
 				conn.close();
-				
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -55,10 +59,8 @@ public class ActorInfoDao {
 	}
 	
 
-
-
 	public int lastPage (int beginRow, int rowPerPage) {
-		int totalRow = 0; 
+		int totalRow = 0;
 		int lastPage = 0;
 		
 		Connection conn = null;
@@ -66,7 +68,7 @@ public class ActorInfoDao {
 		
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
-		String sql = "select count(*) cnt from actor_info";
+		String sql = "select count(*) cnt from nicer_but_slower_film_list";
 		
 		try {
 			stmt = conn.prepareStatement(sql);
@@ -80,6 +82,7 @@ public class ActorInfoDao {
 				lastPage = (totalRow / rowPerPage) + 1;
 			}
 			
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -87,19 +90,21 @@ public class ActorInfoDao {
 				rs.close();
 				stmt.close();
 				conn.close();
-				
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-		
 		}
 		
 		return lastPage;
-	}
 		
+		
+	}
+	
+	
 }
-
-
-
+	
+		
+		
+		
 
 

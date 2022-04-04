@@ -6,37 +6,42 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
 import util.DBUtil;
-import vo.ActorInfo;
+import vo.StaffList;
 
-public class ActorInfoDao {
+
+public class StaffListDao {
 	
-	public List<ActorInfo> selectActorInfoListByPage(int beginRow, int rowPerPage) {
-		List<ActorInfo> list = new ArrayList<ActorInfo>();
+	public List<StaffList> selectStaffListByPage(int beginRow, int rowPerPage){
+		List<StaffList> list = new ArrayList<StaffList>();
 		
 		Connection conn = null;
 		conn = DBUtil.getConnection();
 		
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
-		String sql = "SELECT * FROM actor_info ORDER BY actor_id LIMIT ?, ?";
-		
+		String sql = "SELECT * FROM staff_list ORDER BY id LIMIT ?, ?";
+
+	
 		try {
 			stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, beginRow);
 			stmt.setInt(2, rowPerPage);
 			rs = stmt.executeQuery();
-			
+		
 			while(rs.next()) {
-				ActorInfo actorInfo = new ActorInfo();
-				actorInfo.setActorId(rs.getInt("actor_id"));
-				actorInfo.setFirstName(rs.getString("first_name"));
-				actorInfo.setLastName(rs.getString("last_name"));
-				actorInfo.setFilmInfo(rs.getString("film_info"));
-				System.out.println(actorInfo.toString() + "actor_info");
-				list.add(actorInfo);
-			}		
+				StaffList staffList = new StaffList();
+				staffList.setStaffId(rs.getInt("ID"));
+				staffList.setStaffName(rs.getString("name"));
+				staffList.setAddress(rs.getString("address"));
+				staffList.setZipCode(rs.getString("zip code"));
+				staffList.setPhone(rs.getString("phone"));
+				staffList.setCity(rs.getString("city"));
+				staffList.setCountry(rs.getString("country"));
+				staffList.setSid(rs.getInt("SID"));
+				System.out.println(staffList.toString() + "StaffList");
+				list.add(staffList);
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -44,7 +49,6 @@ public class ActorInfoDao {
 				rs.close();
 				stmt.close();
 				conn.close();
-				
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -55,10 +59,8 @@ public class ActorInfoDao {
 	}
 	
 
-
-
 	public int lastPage (int beginRow, int rowPerPage) {
-		int totalRow = 0; 
+		int totalRow = 0;
 		int lastPage = 0;
 		
 		Connection conn = null;
@@ -66,7 +68,7 @@ public class ActorInfoDao {
 		
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
-		String sql = "select count(*) cnt from actor_info";
+		String sql = "select count(*) cnt from staff_list";
 		
 		try {
 			stmt = conn.prepareStatement(sql);
@@ -80,6 +82,7 @@ public class ActorInfoDao {
 				lastPage = (totalRow / rowPerPage) + 1;
 			}
 			
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -87,19 +90,21 @@ public class ActorInfoDao {
 				rs.close();
 				stmt.close();
 				conn.close();
-				
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-		
 		}
 		
 		return lastPage;
-	}
 		
+		
+	}
+	
+	
 }
-
-
-
+	
+		
+		
+		
 
 

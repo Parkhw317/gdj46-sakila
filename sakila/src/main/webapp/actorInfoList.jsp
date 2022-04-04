@@ -3,7 +3,7 @@
 <%@ page import = "java.util.*" %>
 <%@ page import = "vo.*" %>
 <%@ page import = "dao.*" %>
-<%@ page import = "util.*" %>
+
 <%
 	
 	int currentPage = 1;
@@ -33,20 +33,19 @@
 <title>Actor Info List</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
 </head>
-<div class="container">
 <body>
+<div class="container">	
 	
-	
-	<a href="<%=request.getContextPath()%>/index.jsp" class="btn btn-outline-dark btn-sm" role="button">홈으로</a>
+	<a href="<%=request.getContextPath()%>/index.jsp" class="btn btn-outline-info btn-sm" role="button">홈으로</a>
 	
 	<h1 class="text-center">Actor Info List</h1>
 	<table class="table">
 
-			<tr class = "table-dark">
-				<th class="text-dark" >ActorId</th>
-				<th class="text-dark">firstName</th>
-				<th class="text-dark">lastName</th>
-				<th class="text-dark">filmInfo</th>	
+			<tr class = "table-info">
+				<th class="text-primary" >ActorId</th>
+				<th class="text-primary">firstName</th>
+				<th class="text-primary">lastName</th>
+				<th class="text-primary">filmInfo</th>	
 			</tr>
 
 			<%
@@ -71,7 +70,7 @@
 		%>
 				<ul class="pagination">
 				<li class="page-item">
-				<a href="<%=request.getContextPath()%>/actorInfoList.jsp?currentPage=<%=currentPage-1%>" class="btn btn-secondary btn-sm" role="button">이전</a>
+				<a href="<%=request.getContextPath()%>/actorInfoList.jsp?currentPage=<%=currentPage-1%>" class="btn btn-info btn-sm" role="button">이전</a>
 				</li></ul>
 				
 		<%	
@@ -84,7 +83,7 @@
 		%>
 				<ul class="pagination">
 				<li class="page-item">
-				<a href="<%=request.getContextPath()%>/actorInfoList.jsp?currentPage=<%=currentPage+1%>" class="btn btn-secondary btn-sm" role="button">다음</a>
+				<a href="<%=request.getContextPath()%>/actorInfoList.jsp?currentPage=<%=currentPage+1%>" class="btn btn-info btn-sm" role="button">다음</a>
 				</li></ul>
 		<%		
 			}

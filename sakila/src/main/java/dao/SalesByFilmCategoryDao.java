@@ -8,35 +8,32 @@ import java.util.ArrayList;
 import java.util.List;
 
 import util.DBUtil;
-import vo.ActorInfo;
+import vo.SalesByFilmCategory;
 
-public class ActorInfoDao {
-	
-	public List<ActorInfo> selectActorInfoListByPage(int beginRow, int rowPerPage) {
-		List<ActorInfo> list = new ArrayList<ActorInfo>();
+public class SalesByFilmCategoryDao {
+
+	public List<SalesByFilmCategory> selectSalesByFilmCategoryByPage(int beginRow, int rowPerPage){
+		List<SalesByFilmCategory> list = new ArrayList<SalesByFilmCategory>();
 		
 		Connection conn = null;
 		conn = DBUtil.getConnection();
 		
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
-		String sql = "SELECT * FROM actor_info ORDER BY actor_id LIMIT ?, ?";
-		
+		String sql = "SELECT * FROM sales_by_film_category";
+
+	
 		try {
 			stmt = conn.prepareStatement(sql);
-			stmt.setInt(1, beginRow);
-			stmt.setInt(2, rowPerPage);
 			rs = stmt.executeQuery();
-			
+		
 			while(rs.next()) {
-				ActorInfo actorInfo = new ActorInfo();
-				actorInfo.setActorId(rs.getInt("actor_id"));
-				actorInfo.setFirstName(rs.getString("first_name"));
-				actorInfo.setLastName(rs.getString("last_name"));
-				actorInfo.setFilmInfo(rs.getString("film_info"));
-				System.out.println(actorInfo.toString() + "actor_info");
-				list.add(actorInfo);
-			}		
+				SalesByFilmCategory salesByFilmCategory = new SalesByFilmCategory();
+				salesByFilmCategory.setCategory(rs.getString("category"));
+				salesByFilmCategory.setTotalSales(rs.getDouble("total_sales"));
+				System.out.println(salesByFilmCategory.toString() + "salesByFilmCategory");
+				list.add(salesByFilmCategory);
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -44,7 +41,6 @@ public class ActorInfoDao {
 				rs.close();
 				stmt.close();
 				conn.close();
-				
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -55,10 +51,8 @@ public class ActorInfoDao {
 	}
 	
 
-
-
 	public int lastPage (int beginRow, int rowPerPage) {
-		int totalRow = 0; 
+		int totalRow = 0;
 		int lastPage = 0;
 		
 		Connection conn = null;
@@ -66,7 +60,7 @@ public class ActorInfoDao {
 		
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
-		String sql = "select count(*) cnt from actor_info";
+		String sql = "select count(*) cnt from sales_by_film_category";
 		
 		try {
 			stmt = conn.prepareStatement(sql);
@@ -80,6 +74,7 @@ public class ActorInfoDao {
 				lastPage = (totalRow / rowPerPage) + 1;
 			}
 			
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -87,19 +82,21 @@ public class ActorInfoDao {
 				rs.close();
 				stmt.close();
 				conn.close();
-				
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-		
 		}
 		
 		return lastPage;
-	}
 		
+		
+	}
+	
+	
 }
-
-
-
+	
+		
+		
+		
 
 
