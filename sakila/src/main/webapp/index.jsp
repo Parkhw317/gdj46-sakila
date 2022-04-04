@@ -12,7 +12,8 @@
 
 		<a href="<%=request.getContextPath()%>/storeList.jsp" class="btn btn-info btn-block" role="button">Store List로 이동</a>
 		<a href="<%=request.getContextPath()%>/staffList.jsp" class="btn btn-warning btn-block" role="button">Staff List로 이동</a>
-
+		<a href="<%=request.getContextPath()%>/actorInfoList.jsp" class="btn btn-warning btn-block" role="button">ActorInfo List로 이동</a>
+		
 
 	
 </body>
