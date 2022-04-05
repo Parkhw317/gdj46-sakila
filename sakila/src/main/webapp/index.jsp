@@ -10,6 +10,7 @@
 <div class="container">
 	<h1 class="text-center">INDEX</h1>
 
+		<!-- view 7개 -->
 		<a href="<%=request.getContextPath()%>/storeList.jsp" class="btn btn-info btn-block" role="button">Store List로 이동</a>
 		<a href="<%=request.getContextPath()%>/staffList.jsp" class="btn btn-warning btn-block" role="button">Staff List로 이동</a>
 		<a href="<%=request.getContextPath()%>/actorInfoList.jsp" class="btn btn-info btn-block" role="button">ActorInfo List로 이동</a>
@@ -20,6 +21,11 @@
 		<a href="<%=request.getContextPath()%>/salesByStore.jsp" class="btn btn-warning btn-block" role="button">Sales By Store로 이동</a>
 		<a href="<%=request.getContextPath()%>/staffList2.jsp" class="btn btn-info btn-block" role="button">Staff List2로 이동</a>
 
+		<!-- 프로시저 3개 -->
+		<a href="<%=request.getContextPath()%>/formFilmInStock.jsp" class="btn btn-warning btn-block" role="button">Film In Stock로 이동</a>
+		<a href="<%=request.getContextPath()%>/formFilmNotInStock.jsp" class="btn btn-info btn-block" role="button">Film Not In Stock로 이동</a>
+		<a href="<%=request.getContextPath()%>/formRewordReport.jsp" class="btn btn-warning btn-block" role="button">Reword Report로 이동</a>
+		
 </div>
 </body>
 
