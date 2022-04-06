@@ -12,19 +12,19 @@ import java.util.List;
 import java.util.Map;
 
 import util.DBUtil;
-import vo.RewordReport;
+import vo.RewardsReport;
 
-public class RewordReportDao {
-	public Map<String, Object> rewordRepord(int monthlyPurchases, int dollarAmountPurchased) {
+public class RewardsReportDao {
+	public Map<String, Object> rewardsReport(int monthlyPurchases, int dollarAmountPurchased) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		Connection conn = null;
 		// PreparedStatement : 쿼리를 실행
 		// CallableStatement : 프로시저를 실행 
 		CallableStatement stmt = null;
 		ResultSet rs = null;
-	
-		List<RewordReport> list = new ArrayList<>();
-		
+
+		List<RewardsReport> list = new ArrayList<>();
+
 		Integer count = 0;
 		conn = DBUtil.getConnection();
 		try {
@@ -34,20 +34,20 @@ public class RewordReportDao {
 			stmt.registerOutParameter(3, Types.INTEGER);
 			rs = stmt.executeQuery();
 			while(rs.next()) {
-				RewordReport rewordReport = new RewordReport();
-				rewordReport.setCustomerId(rs.getInt("customer_id"));
-				rewordReport.setStoreId(rs.getInt("Store_id"));
-				rewordReport.setFirstName(rs.getString("first_name"));
-				rewordReport.setLastName(rs.getString("last_name"));
-				rewordReport.setEmail(rs.getString("email"));
-				rewordReport.setAddressId(rs.getInt("address_id"));
-				rewordReport.setActive(rs.getInt("active"));
-				rewordReport.setCreateDate(rs.getString("create_date"));
-				rewordReport.setLastUpdate(rs.getString("last_update"));
-				System.out.println(rewordReport.toString() + "RewordReport");
-				list.add(rewordReport);
-				
-	
+				RewardsReport rewardsReport = new RewardsReport();
+				rewardsReport.setCustomerId(rs.getInt("customer_id"));
+				rewardsReport.setStoreId(rs.getInt("Store_id"));
+				rewardsReport.setFirstName(rs.getString("first_name"));
+				rewardsReport.setLastName(rs.getString("last_name"));
+				rewardsReport.setEmail(rs.getString("email"));
+				rewardsReport.setAddressId(rs.getInt("address_id"));
+				rewardsReport.setActive(rs.getInt("active"));
+				rewardsReport.setCreateDate(rs.getString("create_date"));
+				rewardsReport.setLastUpdate(rs.getString("last_update"));
+				System.out.println(rewardsReport.toString() + "RewordReport");
+				list.add(rewardsReport);
+
+
 			}
 			count = stmt.getInt(3); 
 		} catch (SQLException e) {
@@ -55,22 +55,22 @@ public class RewordReportDao {
 		}
 		map.put("list", list);
 		map.put("count", count);
-		
+
 		return map;
 	}
-	
-	
+
+
 	// 디버깅
 	public static void main(String[] args) { 
-		RewordReportDao rr = new RewordReportDao();
+		RewardsReportDao rr = new RewardsReportDao();
 		int monthlyPurchases = 7; 
 		int dollarAmountPurchased = 20; 
-		Map<String, Object> map = rr.rewordRepord(monthlyPurchases , dollarAmountPurchased);
-		List<RewordReport> list = (List<RewordReport>)map.get("list");
+		Map<String, Object> map = rr.rewardsReport(monthlyPurchases , dollarAmountPurchased);
+		List<RewardsReport> list = (List<RewardsReport>)map.get("list");
 		int count = (Integer)map.get("count");
-		
+
 		System.out.println(monthlyPurchases + "월에 " + dollarAmountPurchased + "달러 이상 구매한 고객");
-		for(RewordReport vo : list) {
+		for(RewardsReport vo : list) {
 			System.out.println(vo.toString());
 		}
 	}

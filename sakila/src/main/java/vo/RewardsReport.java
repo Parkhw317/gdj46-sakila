@@ -1,7 +1,7 @@
 package vo;
 
-public class RewordReport {
-	
+public class RewardsReport {
+
 	private int customerId;
 	private int storeId;
 	private String firstName;
@@ -11,14 +11,14 @@ public class RewordReport {
 	private int active;
 	private String createDate;
 	private String lastUpdate;
-	
+
 	@Override
 	public String toString() {
-		return "RewordReport [customerId=" + customerId + ", storeId=" + storeId + ", firstName=" + firstName
+		return "RewardsReport [customerId=" + customerId + ", storeId=" + storeId + ", firstName=" + firstName
 				+ ", lastName=" + lastName + ", email=" + email + ", addressId=" + addressId + ", active=" + active
 				+ ", createDate=" + createDate + ", lastUpdate=" + lastUpdate + "]";
 	}
-	
+
 	public int getCustomerId() {
 		return customerId;
 	}
@@ -73,6 +73,6 @@ public class RewordReport {
 	public void setLastUpdate(String lastUpdate) {
 		this.lastUpdate = lastUpdate;
 	}
-	
-	
+
+
 }

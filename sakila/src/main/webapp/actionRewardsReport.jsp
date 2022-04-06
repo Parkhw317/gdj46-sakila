@@ -4,18 +4,14 @@
 <%@ page import = "vo.*" %>
 <%@ page import = "dao.*" %>
 <%
-	
-
-	int monthlyPurchases = Integer.parseInt(request.getParameter("monthlyPurchases"));
-
+int monthlyPurchases = Integer.parseInt(request.getParameter("monthlyPurchases"));
 	int dollarAmountPurchased = Integer.parseInt(request.getParameter("dollarAmountPurchased"));
 	
-	RewordReportDao rewordReportDao = new RewordReportDao();
+	RewardsReportDao rewardsReportDao = new RewardsReportDao();
 	
 	
-	Map<String, Object> map = rewordReportDao.rewordRepord(monthlyPurchases, dollarAmountPurchased);
-	List<RewordReport> list = (List<RewordReport>)map.get("list");
-
+	Map<String, Object> map = rewardsReportDao.rewardsReport(monthlyPurchases, dollarAmountPurchased);
+	List<RewardsReport> list = (List<RewardsReport>)map.get("list");
 %>
 <!DOCTYPE html>
 <html>
@@ -46,8 +42,7 @@
 			</tr>
 
 			<%
-				for(RewordReport r : list) {
-			
+			for(RewardsReport r : list) {
 			%>
 				<tr>
 			      <td><%=r.getCustomerId()%></td>

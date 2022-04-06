@@ -13,7 +13,7 @@
 <body>
 <div class="container">	
 	<a href="<%=request.getContextPath()%>/index.jsp" class="btn btn-outline-warning btn-sm" role="button">홈으로</a>
-	 <form method="post" action="<%=request.getContextPath() %>/actionRewordReport.jsp">
+	 <form method="post" action="<%=request.getContextPath() %>/actionRewardsReport.jsp">
 	
 	<h1 class="text-center">Reword Report</h1>
 	

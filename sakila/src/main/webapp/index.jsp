@@ -24,7 +24,7 @@
 		<!-- 프로시저 3개 -->
 		<a href="<%=request.getContextPath()%>/formFilmInStock.jsp" class="btn btn-warning btn-block" role="button">Film In Stock로 이동</a>
 		<a href="<%=request.getContextPath()%>/formFilmNotInStock.jsp" class="btn btn-info btn-block" role="button">Film Not In Stock로 이동</a>
-		<a href="<%=request.getContextPath()%>/formRewordReport.jsp" class="btn btn-warning btn-block" role="button">Reword Report로 이동</a>
+		<a href="<%=request.getContextPath()%>/formRewardsReport.jsp" class="btn btn-warning btn-block" role="button">Reword Report로 이동</a>
 		
 </div>
 </body>
