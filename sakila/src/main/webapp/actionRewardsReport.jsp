@@ -4,7 +4,7 @@
 <%@ page import = "vo.*" %>
 <%@ page import = "dao.*" %>
 <%
-int monthlyPurchases = Integer.parseInt(request.getParameter("monthlyPurchases"));
+	int monthlyPurchases = Integer.parseInt(request.getParameter("monthlyPurchases"));
 	int dollarAmountPurchased = Integer.parseInt(request.getParameter("dollarAmountPurchased"));
 	
 	RewardsReportDao rewardsReportDao = new RewardsReportDao();
