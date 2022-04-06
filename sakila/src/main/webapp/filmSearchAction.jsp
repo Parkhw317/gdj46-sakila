@@ -16,10 +16,12 @@
 	String title = request.getParameter("title");
 	String actors = request.getParameter("actors");
 	
-	int beginRow = 0;
+	
 	int rowPerPage = 10;
 	int lastPage = 0;
 	int currentPage = 1;
+	int beginRow = (currentPage-1)*rowPerPage;
+	
 	
 	if(request.getParameter("currentPage") != null) {
 		currentPage = Integer.parseInt(request.getParameter("currentPage"));
