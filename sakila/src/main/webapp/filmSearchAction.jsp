@@ -16,23 +16,41 @@
 	String title = request.getParameter("title");
 	String actors = request.getParameter("actors");
 	
-	int beginRow = 1;
+	int beginRow = 0;
 	int rowPerPage = 10;
+	int lastPage = 0;
+	int currentPage = 1;
+	
+	if(request.getParameter("currentPage") != null) {
+		currentPage = Integer.parseInt(request.getParameter("currentPage"));
+	}
+	System.out.println(currentPage + "<-- currentPage");
 	
 	
+	// 디버깅
+	System.out.println("category->" + category);
+	System.out.println("rating->" + rating);
+	System.out.println("price->" + price);
+	System.out.println("length->" + length); System.out.println("title->" + title);
+	System.out.println("category->" + category);
+	System.out.println("actors->" + actors);
 	
-		System.out.println("category->" + category);
-		System.out.println("rating->" + rating);
-		System.out.println("price->" + price);
-		System.out.println("length->" + length); System.out.println("title->" + title);
-		System.out.println("category->" + category);
-		System.out.println("actors->" + actors);
-	
-	
-	
+
 	FilmDao filmDao = new FilmDao();
 	List<FilmList> list = filmDao.selectFilmListSearch(beginRow ,rowPerPage ,category, rating, price, length, title, actors);
 	System.out.println(list.size()); // 0
+	
+	int totalRow = filmDao.totalRow(category, rating, price, length, title, actors);
+	
+	
+	if(totalRow % rowPerPage == 0) {
+		lastPage = totalRow / rowPerPage;
+	} else {
+		lastPage = (totalRow / rowPerPage) + 1;
+	}
+	
+	
+	
 %>
 
 <!DOCTYPE html>
@@ -40,9 +58,28 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
 </head>
 <body>
-	<table border="1">
+<div class="container">
+
+<h1 class="text-center">Film List</h1>
+<h6 class="text-center"><%=totalRow %></h6>
+	<table class="table">
+	
+			<tr class = "table-info">
+				<th class="text-primary" >FilmId</th>
+				<th class="text-primary">title</th>
+				<th class="text-primary">description</th>
+				<th class="text-primary">category</th>	
+				<th class="text-primary">price</th>	
+				<th class="text-primary">length</th>	
+				<th class="text-primary">rating</th>	
+				<th class="text-primary">actors</th>	
+			</tr>
+	
+	
+
 		<%
 			for(FilmList f : list) {
 		%>
@@ -59,6 +96,37 @@
 		<%		
 			}
 		%>
+	
 	</table>
+<br>
+	<div class="btn-group">
+		<%
+			if(currentPage > 1) { 
+		%>
+				<ul class="pagination">
+				<li class="page-item">
+				<a href="<%=request.getContextPath()%>/filmList.jsp?currentPage=<%=currentPage-1%>" class="btn btn-info btn-sm" role="button">이전</a>
+				</li></ul>
+				
+		<%	
+			}
+		%>
+		
+		<%
+	
+			if(currentPage < lastPage) {
+		%>
+				<ul class="pagination">
+				<li class="page-item">
+				<a href="<%=request.getContextPath()%>/filmList.jsp?currentPage=<%=currentPage+1%>" class="btn btn-info btn-sm" role="button">다음</a>
+				</li></ul>
+		<%		
+			}
+		%>
+	</div>
+	</div>
+	
+	
+
 </body>
 </html>
