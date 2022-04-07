@@ -61,6 +61,7 @@ public class RentalDao {
 			      //  +"      AND r.rental_date BETWEEN STR_TO_DATE(?,'%Y-%m-%d') "
 			      //  +"      AND STR_TO_DATE(?,'%Y-%m-%d')";
 		
+		
 		if(storeId == -1 && beginDate.equals("") && endDate.equals("")) {  // storeId, beginDate, endDate 모두 Null
 			sql += " ORDER BY r.rental_id LIMIT ?,?";
 			stmt = conn.prepareStatement(sql);
@@ -84,6 +85,7 @@ public class RentalDao {
 		
 			sql += " AND s.store_id=? ORDER BY r.rental_id LIMIT ?,?";
 		
+			
 			stmt = conn.prepareStatement(sql);
 			stmt.setString(1,"%"+customerName+"%" );
 			stmt.setInt(2, storeId);
@@ -191,6 +193,7 @@ public class RentalDao {
 			
 			while(rs.next()) {
 				count = rs.getInt("cnt");
+				System.out.println(count + "RentalDao_count");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

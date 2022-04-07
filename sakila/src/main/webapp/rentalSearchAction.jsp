@@ -5,7 +5,6 @@
 <%
 	int rowPerPage = 10;
 	int currentPage = 1;
-	int beginRow = (currentPage-1)*rowPerPage;
 
 
 	int storeId = -1;
@@ -17,25 +16,21 @@
 	String beginDate = request.getParameter("beginDate");
 	String endDate = request.getParameter("endDate");
 	
-	
+
+	if(request.getParameter("currentPage") != null) {
+		currentPage = Integer.parseInt(request.getParameter("currentPage"));
+	}
+
+	int beginRow = (currentPage-1)*rowPerPage;
 	
 	RentalDao rentalDao = new RentalDao();
-	
-	List<Map<String, Object>> list = rentalDao.selectRentalSearchList(beginRow, rowPerPage, storeId, customerName, beginDate, endDate);
-	System.out.println(list +"rentalSearchAction 오류임니다~");
 	
 	StoreDao storeDao = new StoreDao();
 	List<Integer> storeList = storeDao.selectStoreIdList();
 	
 	int totalRow = rentalDao.totalRow(storeId, customerName, beginDate, endDate);
-	
-
 	int lastPage = (int)(Math.ceil((double)totalRow/(double)rowPerPage)); 
 	
-	if(request.getParameter("currentPage") != null) {
-		currentPage = Integer.parseInt(request.getParameter("currentPage"));
-	}
-	System.out.println(currentPage + "<-- currentPage");
 	
 	if(totalRow % rowPerPage == 0) {
 		lastPage = totalRow / rowPerPage;
@@ -43,6 +38,8 @@
 		lastPage = (totalRow / rowPerPage) + 1;
 	}
 	
+	List<Map<String, Object>> list = rentalDao.selectRentalSearchList(beginRow, rowPerPage, storeId, customerName, beginDate, endDate);
+	System.out.println(list +"rentalSearchAction 오류~");
 	
 
 	System.out.println("storeId->" + storeId);
@@ -113,8 +110,7 @@
 		%>
 				<ul class="pagination">
 				<li class="page-item">
-				<a href="<%=request.getContextPath()%>/rentalSearchAction.jsp?currentPage=<%=currentPage-1%>&storeId=<%=storeId%>&customerName=<%=customerName%>&beginDate=<%=beginDate%>
-      &endDate=<%=endDate%>" class="btn btn-info btn-sm" role="button">이전</a>
+				<a href="<%=request.getContextPath()%>/rentalSearchAction.jsp?currentPage=<%=currentPage-1%>&storeId=<%=storeId%>&customerName=<%=customerName%>&beginDate=<%=beginDate%>&endDate=<%=endDate%>" class="btn btn-info btn-sm" role="button">이전</a>
 				</li></ul>
 				
 		<%	
@@ -127,8 +123,7 @@
 		%>
 				<ul class="pagination">
 				<li class="page-item">
-				<a href="<%=request.getContextPath()%>/rentalSearchAction.jsp?currentPage=<%=currentPage+1%>&storeId=<%=storeId%>&customerName=<%=customerName%>&beginDate=<%=beginDate%>
-      &endDate=<%=endDate%>" class="btn btn-info btn-sm" role="button">다음</a>
+				<a href="<%=request.getContextPath()%>/rentalSearchAction.jsp?currentPage=<%=currentPage+1%>&storeId=<%=storeId%>&customerName=<%=customerName%>&beginDate=<%=beginDate%>&endDate=<%=endDate%>" class="btn btn-info btn-sm" role="button">다음</a>
 				</li></ul>
 		<%		
 			}
