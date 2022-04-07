@@ -33,7 +33,8 @@
 	System.out.println("category->" + category);
 	System.out.println("rating->" + rating);
 	System.out.println("price->" + price);
-	System.out.println("length->" + length); System.out.println("title->" + title);
+	System.out.println("length->" + length);
+	System.out.println("title->" + title);
 	System.out.println("category->" + category);
 	System.out.println("actors->" + actors);
 	

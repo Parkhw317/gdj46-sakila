@@ -374,7 +374,7 @@ public class FilmDao {
 			    	 if(length == 0) {
 			               sql += "AND category=? AND rating=? AND length<60";
 			            } else if(length == 1) {
-			               sql += "AND category=? AND rating=? AND length>=60 ORDER";
+			               sql += "AND category=? AND rating=? AND length>=60";
 			            }
 			            stmt = conn.prepareStatement(sql);
 			            stmt.setString(1, "%"+title+"%");
@@ -408,6 +408,7 @@ public class FilmDao {
 			     }
 		          
 		         rs = stmt.executeQuery();
+		         
 		         while(rs.next()) {
 		        	 count=rs.getInt("cnt");
 		          
