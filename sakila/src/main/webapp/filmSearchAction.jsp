@@ -107,7 +107,8 @@
 		%>
 				<ul class="pagination">
 				<li class="page-item">
-				<a href="<%=request.getContextPath()%>/filmList.jsp?currentPage=<%=currentPage-1%>" class="btn btn-info btn-sm" role="button">이전</a>
+				<a href="<%=request.getContextPath()%>/filmSearchAction.jsp?currentPage=<%=currentPage-1%>&category=<%=category%>&rating=<%=rating%>&price=<%=price%>
+      &length=<%=length%>&title=<%=title%>&actosr=<%=actors%>" class="btn btn-info btn-sm" role="button">이전</a>
 				</li></ul>
 				
 		<%	
@@ -120,7 +121,8 @@
 		%>
 				<ul class="pagination">
 				<li class="page-item">
-				<a href="<%=request.getContextPath()%>/filmList.jsp?currentPage=<%=currentPage+1%>" class="btn btn-info btn-sm" role="button">다음</a>
+				<a href="<%=request.getContextPath()%>/filmSearchAction.jsp?currentPage=<%=currentPage+1%>&category=<%=category%>&rating=<%=rating%>&price=<%=price%>
+      &length=<%=length%>&title=<%=title%>&actors=<%=actors%>" class="btn btn-info btn-sm" role="button">다음</a>
 				</li></ul>
 		<%		
 			}
