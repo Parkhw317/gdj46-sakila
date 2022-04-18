@@ -12,7 +12,7 @@ import java.util.Map;
 import util.DBUtil;
 
 public class StatsDataDao {
-	public List<Map<String, Object>> amountByCustomer(){ // 제일 많이(금액) 빌려간 사람 내림차순
+	public List<Map<String, Object>> amountByCustomer(){ // 1. 제일 많이(금액) 빌려간 사람 내림차순
 
 		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 		Connection conn = null;
@@ -57,7 +57,7 @@ public class StatsDataDao {
 	    }
 	
 	
-	public List<Map<String, Object>> countByCustomer(){ // 제일 많이(횟수) 빌려간 사람 누구?
+	public List<Map<String, Object>> countByCustomer(){ // 2. 제일 많이(횟수) 빌려간 사람 누구?
 
 		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 		Connection conn = null;
@@ -107,7 +107,7 @@ public class StatsDataDao {
 	}
 	
 	
-	public List<Map<String, Object>> filmCountByRentalRate(){ // rental_rate별 영화 개수
+	public List<Map<String, Object>> filmCountByRentalRate(){ // 3. rental_rate별 영화 개수
 		
 		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 		Connection conn = null;
@@ -151,7 +151,7 @@ public class StatsDataDao {
 	}
 	
 	
-	public List<Map<String, Object>> filmCountByRating(){ // rating별 영화 개수
+	public List<Map<String, Object>> filmCountByRating(){ // 4. rating별 영화 개수
 		
 		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 		Connection conn = null;
@@ -192,7 +192,7 @@ public class StatsDataDao {
 
 	}
 	
-	public List<Map<String, Object>> languageFilmCount(){ // Language별 영화 개수
+	public List<Map<String, Object>> languageFilmCount(){ // 5. Language별 영화 개수
 			
 			List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 			Connection conn = null;
@@ -233,7 +233,7 @@ public class StatsDataDao {
 	
 		}
 	
-	public List<Map<String, Object>> lengthFilmCount(){ // length별 영화 개수(구간, 기준을 정해서)
+	public List<Map<String, Object>> lengthFilmCount(){ // 6. length별 영화 개수(구간, 기준을 정해서)
 		
 		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 		Connection conn = null;
@@ -280,7 +280,7 @@ public class StatsDataDao {
 
 	}
 
-	public List<Map<String, Object>> salesByDay(){ // store 매장 요일별 매출 (월화수목금토일)
+	public List<Map<String, Object>> salesByDay(){ // 7. store 매장 요일별 매출 (월화수목금토일)
 		
 		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 		Connection conn = null;
@@ -335,12 +335,224 @@ public class StatsDataDao {
 	}
 	
 	
+public List<Map<String, Object>> customerRentalCount(){ // 8. customer별 빌린 횟수
+		
+		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		conn = DBUtil.getConnection();
+		
+		String sql = "SELECT r.customer_id,"
+				+ " CONCAT(c.first_name,' ',c.last_name) name,"
+				+ " COUNT(*) rentalCount"
+				+ " FROM rental r INNER JOIN customer c"
+				+ " ON r.customer_id = c.customer_id"
+				+ " GROUP BY r.customer_id"
+				+ " ORDER BY r.customer_id ASC;";
+
+		try {
+			stmt = conn.prepareStatement(sql);
+			rs = stmt.executeQuery();
+			  while(rs.next()) {
+		            Map<String, Object> m = new HashMap<>();
+		            m.put("customerId",rs.getInt("customer_id"));
+		            m.put("customerName",rs.getString("name"));
+		            m.put("rentalCount",rs.getInt("rentalCount"));
+		            list.add(m);
+		            System.out.println(list + "custometRentalCount");
+			  }
+			
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		} finally {
+	         try {
+	             rs.close();
+	             stmt.close();
+	             conn.close();
+	          } catch (SQLException e) {
+	             e.printStackTrace();
+	          }
+	       }
+	       return list;
+
+	}	
 	
+public List<Map<String, Object>> staffRentalCount(){ // 9. staff별 고객에게 rental 횟수
 	
+	List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+	Connection conn = null;
+	PreparedStatement stmt = null;
+	ResultSet rs = null;
+	conn = DBUtil.getConnection();
 	
+	String sql = "SELECT r.staff_id, COUNT(*) rentalCount"
+				+ " FROM rental r INNER JOIN store s"
+				+ " ON r.staff_id = s.manager_staff_id"
+				+ " GROUP BY r.staff_id;";
+
+
+	try {
+		stmt = conn.prepareStatement(sql);
+		rs = stmt.executeQuery();
+		  while(rs.next()) {
+	            Map<String, Object> m = new HashMap<>();
+	            m.put("staffId",rs.getInt("staff_id"));
+	            m.put("rentalCount",rs.getString("rentalCount"));
+	            list.add(m);
+	            System.out.println(list + "staffRentalCount");
+		  }
+		
+	} catch (SQLException e) {
+
+		e.printStackTrace();
+	} finally {
+         try {
+             rs.close();
+             stmt.close();
+             conn.close();
+          } catch (SQLException e) {
+             e.printStackTrace();
+          }
+       }
+       return list;
+
+}	
 	
+public List<Map<String, Object>> actorFilmCount(){ // 10. actor별 영화 출연 횟수
 	
+	List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+	Connection conn = null;
+	PreparedStatement stmt = null;
+	ResultSet rs = null;
+	conn = DBUtil.getConnection();
 	
+	String sql = "SELECT f.actor_id,"
+			+ " CONCAT(a.first_name,' ',a.last_name) name,"
+			+ " COUNT(*) count"
+			+ " FROM film_actor f INNER JOIN actor a"
+			+ " ON f.actor_id = a.actor_id"
+			+ " GROUP BY f.actor_id"
+			+ " ORDER BY f.actor_id ASC;";
+
+
+	try {
+		stmt = conn.prepareStatement(sql);
+		rs = stmt.executeQuery();
+		  while(rs.next()) {
+	            Map<String, Object> m = new HashMap<>();
+	            m.put("actorId",rs.getInt("actor_id"));
+	            m.put("actorName",rs.getString("name"));
+	            m.put("count",rs.getInt("count"));
+	            
+	            list.add(m);
+	            System.out.println(list + "actorFilmCount");
+		  }
+		
+	} catch (SQLException e) {
+
+		e.printStackTrace();
+	} finally {
+         try {
+             rs.close();
+             stmt.close();
+             conn.close();
+          } catch (SQLException e) {
+             e.printStackTrace();
+          }
+       }
+       return list;
+
+}	
+	
+public List<Map<String, Object>> storeFilmCount(){ // 11. store별 영화 소지 개수
+	
+	List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+	Connection conn = null;
+	PreparedStatement stmt = null;
+	ResultSet rs = null;
+	conn = DBUtil.getConnection();
+	
+	String sql = "SELECT s.store_id,"
+			+ " COUNT(*) inventoryCount"
+			+ " FROM store s INNER JOIN inventory i"
+			+ " ON s.store_id = i.store_id"
+			+ " GROUP BY s.store_id;";
+
+
+	try {
+		stmt = conn.prepareStatement(sql);
+		rs = stmt.executeQuery();
+		  while(rs.next()) {
+	            Map<String, Object> m = new HashMap<>();
+	            m.put("storeId",rs.getInt("store_id"));
+	            m.put("inventoryCount",rs.getInt("inventoryCount"));
+	            
+	            list.add(m);
+	            System.out.println(list + "storeFilmCount");
+		  }
+		
+	} catch (SQLException e) {
+
+		e.printStackTrace();
+	} finally {
+         try {
+             rs.close();
+             stmt.close();
+             conn.close();
+          } catch (SQLException e) {
+             e.printStackTrace();
+          }
+       }
+       return list;
+
+}	
+	
+public List<Map<String, Object>> customerStoreCount(){ // 12. customer별 store를 이용한 횟수
+	
+	List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+	Connection conn = null;
+	PreparedStatement stmt = null;
+	ResultSet rs = null;
+	conn = DBUtil.getConnection();
+	
+	String sql = "SELECT r.customer_id,"
+			+ " s.store_id,"
+			+ " COUNT(*) rentalCount"
+			+ " FROM rental r"
+			+ " INNER JOIN staff s"
+			+ " ON r.staff_id = s.staff_id"
+			+ " GROUP BY r.customer_id, s.store_id;";
+
+	try {
+		stmt = conn.prepareStatement(sql);
+		rs = stmt.executeQuery();
+		  while(rs.next()) {
+	            Map<String, Object> m = new HashMap<>();
+	            m.put("customerId",rs.getInt("customer_id"));
+	            m.put("storeId",rs.getInt("store_id"));
+	            m.put("rentalCount",rs.getInt("rentalCount"));
+	      
+	            list.add(m);
+	            System.out.println(list + "customerStoreCount");
+		  }
+		
+	} catch (SQLException e) {
+
+		e.printStackTrace();
+	} finally {
+         try {
+             rs.close();
+             stmt.close();
+             conn.close();
+          } catch (SQLException e) {
+             e.printStackTrace();
+          }
+       }
+       return list;
+
+}	
 	
 	
 	
